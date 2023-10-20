@@ -8,46 +8,36 @@ app.use(cors())
 
 // Codingan disini
 
-app.post("/berat", (req,res) => 
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const app = express();
+
+app.use(bodyParser.json())
+
+app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(cors())
+
+app.get("/konversi/:tipe_berat/:berat", (req,res) => 
 {
-    let tipe = req.body.tip3
-    let brt = Number(req.body.brt)
-    let hold =0
+    let tipe_berat = req.params.tipe_berat
+    let berat = req.params.berat
     let response
     let kg,hg,dag,g,dg,cg,mg
 
-    if (tipe === "mg") 
-    { 
-        mg = brt
-        cg = mg * 10
-        dg = cg * 10
-        g = dg * 10
-        dag = g * 10
-        hg = dag * 10
-        kg = hg * 10
-        response = {
-            Soal: "Konversi MG",
-            mg: mg,
-            cg: cg,
-            dg: dg,
-            g: g,
-            dag: dag,
-            hg: hg,
-            kg: kg
-        
-        }
-    }
-    else if(tipe === "cg")
+    if (tipe_berat === "mg") 
     {
-        mg = brt / 10
-        cg = mg * 10
-        dg = cg * 10
-        g = dg * 10
-        dag = g * 10
-        hg = dag * 10
-        kg = hg * 10
+        mg = berat
+        cg = mg / 10
+        dg = mg / 100
+        g = mg / 1000
+        dag = mg / 10000
+        hg = mg / 100000
+        kg = mg / 1000000
         response = {
-            Soal: "Konversi CG",
+            Soal: "Konversi Berat MG",
             mg: mg,
             cg: cg,
             dg: dg,
@@ -57,17 +47,37 @@ app.post("/berat", (req,res) =>
             kg: kg
         }
     }
-    else if(tipe === "dg")
+    else if(tipe_berat === "cg")
     {
-        mg = berat / 100
-        cg = mg * 10
-        dg = cg * 10
-        g = dg * 10
-        dag = g * 10
-        hg = dag * 10
-        kg = hg * 10
+        cg = berat
+        mg = cg * 10
+        dg = cg / 10
+        g = cg / 100
+        dag = cg / 1000
+        hg = cg / 10000
+        kg = cg / 100000
         response = {
-            Soal: "Konversi DG",
+            Soal: "Konversi Berat CG",
+            mg: mg,
+            cg: cg,
+            dg: dg,
+            g: g,
+            dag: dag,
+            hg: hg,
+            kg: kg
+        }
+    }
+    else if(tipe_berat === "dg")
+    {
+        dg = berat
+        mg = dg * 100
+        cg = dg * 10
+        g = dg / 10
+        dag = dg / 100
+        hg = dg / 1000
+        kg = dg / 10000
+        response = {
+            Soal: "Konversi Berat DG",
             mg: mg,
             cg: cg,
             dg: dg,
@@ -79,15 +89,15 @@ app.post("/berat", (req,res) =>
     }
     else if(tipe_berat === "g")
     {
-        mg = berat / 1000
-        cg = mg * 10
-        dg = cg * 10
-        g = dg * 10
-        dag = g * 10
-        hg = dag * 10
-        kg = hg * 10
+        g = berat
+        mg = g * 1000
+        cg = g * 100
+        dg = g * 10
+        dag = g / 10
+        hg = g / 100
+        kg = g / 1000
         response = {
-            Soal: "Konversi G",
+            Soal: "Konversi Berat G",
             mg: mg,
             cg: cg,
             dg: dg,
@@ -99,15 +109,15 @@ app.post("/berat", (req,res) =>
     }
     else if(tipe_berat === "dag")
     {
-        mg = berat / 10000
-        cg = mg * 10
-        dg = cg * 10
-        g = dg * 10
-        dag = g * 10
-        hg = dag * 10
-        kg = hg * 10
+        dag = berat
+        mg = dag * 10000
+        cg = dag * 1000
+        dg = dag * 100
+        g = dag * 10
+        hg = dag / 10
+        kg = dag / 100
         response = {
-            Soal: "Konversi DAG",
+            Soal: "Konversi Berat DAG",
             mg: mg,
             cg: cg,
             dg: dg,
@@ -119,15 +129,15 @@ app.post("/berat", (req,res) =>
     }
     else if(tipe_berat === "hg")
     {
-        mg = berat / 100000
-        cg = mg * 10
-        dg = cg * 10
-        g = dg * 10
-        dag = g * 10
-        hg = dag * 10
-        kg = hg * 10
+        hg = berat
+        mg = hg * 100000
+        cg = hg * 10000
+        dg = hg * 1000
+        g = hg * 100
+        dag = hg * 10
+        kg = hg / 10
         response = {
-            Soal: "Konversi HG",
+            Soal: "Konversi Berat HG",
             mg: mg,
             cg: cg,
             dg: dg,
@@ -139,15 +149,15 @@ app.post("/berat", (req,res) =>
     }
     else if(tipe_berat === "kg")
     {
-        mg = berat / 1000000
-        cg = mg * 10
-        dg = cg * 10
-        g = dg * 10
-        dag = g * 10
-        hg = dag * 10
-        kg = hg * 10
+        kg = berat
+        mg = kg * 1000000
+        cg = kg * 100000
+        dg = kg * 10000
+        g = kg * 1000
+        dag = kg * 100
+        hg = kg * 10
         response = {
-            Soal: "Konversi KG",
+            Soal: "Konversi Berat KG",
             mg: mg,
             cg: cg,
             dg: dg,
@@ -159,6 +169,10 @@ app.post("/berat", (req,res) =>
     }
 
     res.json(response)
+})
+
+app.listen(1213, () => {
+    console.log("Server run on port 1213");
 })
 
 
