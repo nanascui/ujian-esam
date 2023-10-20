@@ -171,9 +171,6 @@ app.get("/konversi/:tipe_berat/:berat", (req,res) =>
     res.json(response)
 })
 
-app.listen(1213, () => {
-    console.log("Server run on port 1213");
-})
 
 
 app.post("/vst", (req, res) => {
